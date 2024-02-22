@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import connectDB from './config/db';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+import authRoutes from './routes/authRoutes';
+import authMiddleware from './middleware/authMiddleware';
 
 dotenv.config();
 connectDB();
@@ -46,6 +48,8 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use('/api/auth', authRoutes);
 
 app.get('/', (_req: Request, res: Response) => {
   res.send('FlixFlex API is running...');
